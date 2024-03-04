@@ -5,10 +5,12 @@ const app = express();
 const port = process.env.PORT;
 const apiKey = process.env.APIKEY;
 const path = require('path');
+const cors = require("cors")
 
 app.use(express.json());
+app.use(cors());
 
-app.get("/api", async (req,res) => {
+app.get("/api", async (req, res) => {
   let category = req.query.category;
   let pageSize = req.query.pageSize;
   let page = req.query.page;
@@ -16,11 +18,11 @@ app.get("/api", async (req,res) => {
     const response = await axios.get(
       `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`
     );
-    if(response.data.status){
+    if (response.data.status) {
       res.json(response.data);
     }
-    else{
-      res.status(500).json({ error: "An error occured while checking the status of API."});
+    else {
+      res.status(500).json({ error: "An error occured while checking the status of API." });
     }
   } catch (error) {
     console.log("Error:", error);
@@ -38,9 +40,9 @@ app.listen(port, () => {
 
 const __dirname1 = path.resolve();
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname1, "/build")));
+  app.use(express.static(path.join(__dirname1, "frontend", "build")));
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname1, "build", "index.html"));
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
   });
 } else {
   app.get("/", (req, res) => {

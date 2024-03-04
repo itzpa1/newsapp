@@ -9,7 +9,8 @@ const News = (props) => {
   const [loading, setLoading] = useState(true);
   const [totalResults, setTotalResults] = useState(0);
   const [page, setPage] = useState(1);
-  const host = "https://newsapp-zbed.onrender.com";
+  // const host = "https://newsapp-zbed.onrender.com";
+  const host = "http://localhost:5000"
   const capital = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -24,7 +25,6 @@ const News = (props) => {
   const updateNews = async () => {
     try{
     props.setProgress(30);
-    // const apiUrl = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&props.pageSize=${props.props.pageSize}`;
     const apiUrl = `${host}/api?category=${props.category}&pageSize=${props.pageSize}&page=${page}`;
     props.setProgress(50);
     let data = await fetch(apiUrl);
@@ -44,7 +44,6 @@ const News = (props) => {
   };
   const fetchMoreData = async () => {
     try{
-    // const apiUrl = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&props.pageSize=${props.props.pageSize}`;
     const apiUrl = `${host}/api?category=${
       props.category
     }&pageSize=${props.pageSize}&page=${page + 1}`;
